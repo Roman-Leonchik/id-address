@@ -2,7 +2,8 @@ import axios from "axios"
 import { useState, useEffect } from "react"
 import { Header } from "../modules/header/header.components"
 import { StyledHome, StyledMap } from "./home.templates"
-import { MapContainer, TileLayer, ZoomControl } from "react-leaflet"
+import { MapContainer, TileLayer, ZoomControl, Marker } from "react-leaflet"
+import { latLng } from "leaflet"
 
 export interface IUser {
     ip: string
@@ -22,7 +23,7 @@ export const HomeTemplate = () => {
         latitude: "53.9045398",
         longitude: "27.5615244",
     })
-    const [user, setUser] = useState<IUser>({
+    const [userInfo, setUserInfo] = useState<IUser>({
         ip: "",
         location: "",
         timezone: "",
@@ -30,7 +31,7 @@ export const HomeTemplate = () => {
     })
 
     const getIP = async () => {
-        /*const res = await axios.get("https://ipwho.is/&fields=city,timezone,country,connection,latitude,longitude")
+        /*const res = await axios.get("https://ipwho.is/&fields=city,timezone,country,connection,latitude,longitude,ip")
         setUser({
             ip: res.data.ip,
             location: `${res.data.country}, ${res.data.city}`,
@@ -38,7 +39,7 @@ export const HomeTemplate = () => {
             isp: res.data.connection.isp,
         })*/
         const res = await axios.get("https://geolocation-db.com/json/")
-        setUser((prev) => ({
+        setUserInfo((prev) => ({
             ...prev,
             ip: res.data.IPv4,
         }))
@@ -55,11 +56,11 @@ export const HomeTemplate = () => {
                 setError(true)
             })
         if (!error) {
-            setUser((prev) => ({
+            setUserInfo((prev) => ({
                 ...prev,
                 location: `${res?.data.country_name}, ${res?.data.city}`,
                 //timezone: res?.data.location.timezone,
-                //isp: res?.data.isp,
+                //isp: `UTC${res?.data.isp}`,
             }))
             /*setMapСoordinates({
                 latitude: res?.data.latitude,
@@ -73,21 +74,38 @@ export const HomeTemplate = () => {
     }, [])
 
     useEffect(() => {
-        if (user.ip !== "") {
-            getAddress(user.ip)
+        if (userInfo.ip !== "") {
+            getAddress(userInfo.ip)
+            console.log("Address")
         }
-    }, [user.ip])
+    }, [userInfo.ip])
+
+    const handlerChangeIP = (id: string) => {
+        setUserInfo((prev) => ({
+            ...prev,
+            ip: id,
+        }))
+    }
 
     return (
         <StyledHome>
-            <Header user={user} error={error} />
+            <Header user={userInfo} error={error} changeIP={handlerChangeIP} />
             <StyledMap>
                 <MapContainer
-                    center={[mapСoordinates.latitude, mapСoordinates.longitude]}
-                    zoom={16}
+                    center={[
+                        Number(mapСoordinates.latitude),
+                        Number(mapСoordinates.longitude),
+                    ]}
+                    zoom={12}
                     zoomControl={false}
                 >
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                    <Marker
+                        position={latLng(
+                            Number(mapСoordinates.latitude),
+                            Number(mapСoordinates.longitude)
+                        )}
+                    />
                     <ZoomControl position="topright" />
                 </MapContainer>
             </StyledMap>

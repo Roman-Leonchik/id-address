@@ -6,6 +6,7 @@ module.exports = {
     entry: path.resolve(__dirname, "..", "./src/index.tsx"),
     resolve: {
         alias: {
+            "@src": path.join(__dirname, "..", "./src"),
             "@assets": path.join(__dirname, "..", "./src/client/assets"),
             "@elements": path.join(
                 __dirname,

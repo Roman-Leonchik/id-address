@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { media } from "@src/client/components/lib/styled-components/variables"
 
 export const StyledInfo = styled.div`
     background-color: ${({ theme }) => theme.white};
@@ -10,6 +11,15 @@ export const StyledInfo = styled.div`
     box-shadow: ${({ theme }) => theme.dark} 0px 0px 10px;
     height: 160px;
     border-radius: 15px;
+    ${media.tablet`
+        max-width: 550px;
+        flex-direction: column;
+        gap: 20px;
+        height: 295px;
+        width: calc(100vw - 50px);
+        text-align: center;
+        padding-top: 25px;
+    `}
 `
 
 export const StyledInfoTitle = styled.h2`
@@ -19,6 +29,11 @@ export const StyledInfoTitle = styled.h2`
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin: 0 0 15px;
+    ${media.tablet`
+        font-size: 12px;
+        margin-bottom: 10px;
+        font-weight: 500;
+    `}
 `
 
 export const StyledInfoText = styled.p`
@@ -31,6 +46,12 @@ export const StyledInfoText = styled.p`
     -webkit-box-orient: vertical;
     overflow: hidden;
     max-height: 60px;
+    ${media.tablet`
+        font-size: 20px;
+        -webkit-line-clamp: 1;
+        max-height: 24px;
+        font-weight: 500;
+    `}
 `
 
 export const StyledItem = styled.div`
@@ -49,4 +70,14 @@ export const StyledItem = styled.div`
             background: ${({ theme }) => theme.gray};
         }
     }
+    ${media.tablet`
+        width: 100%;
+        padding: 0;
+        min-height: 50px;
+        &:not(:last-child) {
+            &:before {
+                display: none;
+            }
+        }
+    `}
 `

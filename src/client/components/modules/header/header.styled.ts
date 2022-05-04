@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { media } from "@src/client/components/lib/styled-components/variables"
 import { InfoBlock } from "@elements/info/info-block.element"
 
 export const StyledHeader = styled.header`
@@ -10,6 +11,10 @@ export const StyledHeader = styled.header`
     background-size: cover;
     position: relative;
     z-index: 2;
+    ${media.tablet`
+        height: 300px;
+        padding: 25px;
+    `}
 `
 
 export const StyledTitle = styled.h1`
@@ -18,6 +23,9 @@ export const StyledTitle = styled.h1`
     font-size: 30px;
     text-align: center;
     color: ${({ theme }) => theme.white};
+    ${media.tablet`
+        font-size: 24px;
+    `}
 `
 
 export const StyledForm = styled.form`
@@ -46,6 +54,9 @@ export const StyledSubmit = styled.input`
     &:hover {
         background-color: ${({ theme }) => theme.dark};
     }
+    ${media.tablet`
+        width: 70px;
+    `}
 `
 export const StyledInfoBlock = styled(InfoBlock)`
     position: absolute;
@@ -53,4 +64,7 @@ export const StyledInfoBlock = styled(InfoBlock)`
     left: 0;
     right: 0;
     margin: 0 auto;
+    ${media.tablet`
+        bottom: -160px;
+    `}
 `

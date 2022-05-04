@@ -9,7 +9,16 @@ module.exports = {
             version: "detect",
         },
         "import/resolver": {
-            typescript: {},
+            node: {
+                paths: "packages/*/src",
+                extensions: [".js", ".ts", ".tsx"],
+            },
+            typescript: {
+                alwaysTryTypes: true,
+                project: [
+                    path.resolve(__dirname, ".tsconfig.json"),
+                ],
+            },
         },
     },
     extends: [

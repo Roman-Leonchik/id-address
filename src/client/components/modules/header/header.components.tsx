@@ -18,12 +18,25 @@ interface IProps {
 export const Header: React.FC<IProps> = ({ user, error, changeIP }) => {
     const [value, setValue] = useState("")
 
+    const checkText = (text: string) => {
+        if (/[a-zа-яё]/i.test(text.toLocaleLowerCase())){
+            return false
+        }
+        return true
+    }
+
     const handlerInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value)
+        const inputText = event.target.value
+        if (checkText(inputText)) {
+            setValue(inputText)
+        }
     }
 
     const onSubmitForm = (e: React.FormEvent) => {
         e.preventDefault()
+        if (value.replace( /\.$|[^\d.]/gi , "").split(".").length !== 4) {
+            return false
+        }
         changeIP(value)
     }
 
